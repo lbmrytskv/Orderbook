@@ -1,24 +1,35 @@
-<div class="p-6 max-w-4xl mx-auto">
-    <h2 class="text-2xl font-bold text-center mb-6">📊 Order Book Snapshot</h2>
-  
-    <div class="flex justify-between gap-8">
-      <!-- Asks (Sell) -->
-      <div class="w-1/2">
-        <h3 class="text-orange-500 font-semibold mb-2 text-lg">Asks (Sell)</h3>
-        <div *ngFor="let ask of asks" class="flex items-center gap-2 mb-1">
-          <span class="w-24 text-sm text-right">{{ ask.price }}</span>
-          <div class="h-2 bg-orange-400 rounded" [style.width.%]="(+ask.size) / 10"></div>
-        </div>
+<div class="p-6 max-w-5xl mx-auto">
+  <h2 class="text-2xl font-bold text-center mb-6">📈 Order Book Snapshot</h2>
+
+  <div class="grid grid-cols-2 gap-4 font-mono text-sm">
+    <!-- PRICE COLUMN -->
+    <div class="flex flex-col gap-1 items-end pr-2 text-gray-700">
+      <div *ngFor="let level of levels" class="h-4 flex items-center justify-end w-20">
+        {{ getPriceFormatted(level.price) }}
       </div>
-  
-      <!-- Bids (Buy) -->
-      <div class="w-1/2">
-        <h3 class="text-blue-500 font-semibold mb-2 text-lg">Bids (Buy)</h3>
-        <div *ngFor="let bid of bids" class="flex items-center gap-2 mb-1">
-          <span class="w-24 text-sm text-right">{{ bid.price }}</span>
-          <div class="h-2 bg-blue-500 rounded" [style.width.%]="(+bid.size) / 10"></div>
+    </div>
+
+    <!-- ORDER BAR COLUMN -->
+    <div class="flex flex-col gap-1">
+      <div *ngFor="let level of levels" class="relative h-4 w-full">
+        <!-- ASK BAR -->
+        <div
+          *ngIf="level.askSize"
+          class="absolute h-4 bg-orange-500 text-white text-xs px-1 flex items-center rounded"
+          [style.width.%]="getSizePercent(level.askSize)"
+        >
+          {{ level.askSize }}
+        </div>
+
+        <!-- BID BAR -->
+        <div
+          *ngIf="level.bidSize"
+          class="absolute h-4 bg-blue-500 text-white text-xs px-1 flex items-center rounded"
+          [style.width.%]="getSizePercent(level.bidSize)"
+        >
+          {{ level.bidSize }}
         </div>
       </div>
     </div>
   </div>
-  
+</div>
