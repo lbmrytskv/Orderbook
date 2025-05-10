@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OrderBookDataService, OrderBookSnapshot } from '../../services/order-book-data.service';
+import { OrderBookSnapshot } from '../../services/order-book-data.service';
 
 type Level = {
   price: number;
@@ -14,22 +14,14 @@ type Level = {
   imports: [CommonModule],
   templateUrl: './order-book.component.html',
 })
-export class OrderBookComponent implements OnInit {
-  snapshot: OrderBookSnapshot | null = null;
-
-  constructor(private dataService: OrderBookDataService) {}
-
-  ngOnInit(): void {
-    this.dataService.getSnapshots().subscribe((data) => {
-      this.snapshot = data[0];
-    });
-  }
+export class OrderBookComponent {
+  @Input() snapshot: OrderBookSnapshot | null = null;
 
   get levels(): Level[] {
     if (!this.snapshot) return [];
 
-    const askPrices = [];
-    const bidPrices = [];
+    const askPrices: number[] = [];
+    const bidPrices: number[] = [];
 
     for (let i = 1; i <= 10; i++) {
       const askPrice = Number(this.snapshot['Ask' + i]);
@@ -42,8 +34,8 @@ export class OrderBookComponent implements OnInit {
     const allPrices = [...askPrices, ...bidPrices];
     const minPrice = Math.min(...allPrices);
     const maxPrice = Math.max(...allPrices);
-
     const step = 0.0005;
+
     const levels: Level[] = [];
 
     for (let p = maxPrice; p >= minPrice; p -= step) {
@@ -52,8 +44,8 @@ export class OrderBookComponent implements OnInit {
       const askIndex = askPrices.findIndex(ap => ap === price);
       const bidIndex = bidPrices.findIndex(bp => bp === price);
 
-      const askSize = askIndex >= 0 ? Number(this.snapshot!['Ask' + (askIndex + 1) + 'Size']) : undefined;
-      const bidSize = bidIndex >= 0 ? Number(this.snapshot!['Bid' + (bidIndex + 1) + 'Size']) : undefined;
+      const askSize = askIndex >= 0 ? Number(this.snapshot['Ask' + (askIndex + 1) + 'Size']) : undefined;
+      const bidSize = bidIndex >= 0 ? Number(this.snapshot['Bid' + (bidIndex + 1) + 'Size']) : undefined;
 
       levels.push({ price, askSize, bidSize });
     }
