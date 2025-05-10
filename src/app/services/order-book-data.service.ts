@@ -15,6 +15,6 @@ export class OrderBookDataService {
   constructor(private http: HttpClient) {}
 
   getSnapshots(): Observable<OrderBookSnapshot[]> {
-    return this.http.get<OrderBookSnapshot[]>('assets/data/tradingdata.json');
+    return this.http.get<OrderBookSnapshot[]>('data/tradingdata.json');
   }
 }

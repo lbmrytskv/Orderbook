@@ -15,7 +15,8 @@ export class OrderBookComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataService.getSnapshots().subscribe((data) => {
-      this.snapshot = data[0]; // показуємо перший снапшот
+      console.log('Loaded snapshot:', data);
+      this.snapshot = data[0]; 
     });
   }
 
