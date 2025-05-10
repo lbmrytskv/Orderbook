@@ -1,0 +1,24 @@
+<div class="p-6 max-w-4xl mx-auto">
+    <h2 class="text-2xl font-bold text-center mb-6">📊 Order Book Snapshot</h2>
+  
+    <div class="flex justify-between gap-8">
+      <!-- Asks (Sell) -->
+      <div class="w-1/2">
+        <h3 class="text-orange-500 font-semibold mb-2 text-lg">Asks (Sell)</h3>
+        <div *ngFor="let ask of asks" class="flex items-center gap-2 mb-1">
+          <span class="w-24 text-sm text-right">{{ ask.price }}</span>
+          <div class="h-2 bg-orange-400 rounded" [style.width.%]="(+ask.size) / 10"></div>
+        </div>
+      </div>
+  
+      <!-- Bids (Buy) -->
+      <div class="w-1/2">
+        <h3 class="text-blue-500 font-semibold mb-2 text-lg">Bids (Buy)</h3>
+        <div *ngFor="let bid of bids" class="flex items-center gap-2 mb-1">
+          <span class="w-24 text-sm text-right">{{ bid.price }}</span>
+          <div class="h-2 bg-blue-500 rounded" [style.width.%]="(+bid.size) / 10"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
