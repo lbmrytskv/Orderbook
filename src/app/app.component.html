@@ -1,18 +1,40 @@
 <div class="p-4 max-w-5xl mx-auto">
-  <label for="snapshotSelect" class="block text-sm font-medium text-gray-700 mb-2">Select Snapshot Time:</label>
-  <select
-    id="snapshotSelect"
-    class="border border-gray-300 rounded px-3 py-1 mb-6 text-sm"
-    (change)="onSelect($event)"
 
-
-  >
-    <option *ngFor="let snapshot of snapshots" [value]="snapshot.Time">
-      {{ snapshot.Time }}
-    </option>
-  </select>
-
+  <!-- SNAPSHOT VISUALIZATION -->
   <app-order-book *ngIf="selectedSnapshot" [snapshot]="selectedSnapshot" />
+
+  <!-- NAVIGATION CONTROLS BELOW -->
+  <div class="mt-8 text-center">
+    <label for="snapshotSelect" class="block text-sm font-medium text-gray-700 mb-2">
+      Select Snapshot Time:
+    </label>
+
+    <div class="inline-flex items-center gap-4">
+      <button
+        class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+        (click)="goToPrev()"
+        [disabled]="currentIndex === 0"
+      >
+        ⬅ Prev
+      </button>
+
+      <select
+        id="snapshotSelect"
+        class="border border-gray-300 rounded px-3 py-1 text-sm"
+        (change)="onSelect($event)"
+      >
+        <option *ngFor="let snapshot of snapshots" [value]="snapshot.Time" [selected]="snapshot === selectedSnapshot">
+          {{ snapshot.Time }}
+        </option>
+      </select>
+
+      <button
+        class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 disabled:opacity-50"
+        (click)="goToNext()"
+        [disabled]="currentIndex === snapshots.length - 1"
+      >
+        Next ➡
+      </button>
+    </div>
+  </div>
 </div>
-
-
