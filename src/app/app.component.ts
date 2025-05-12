@@ -51,29 +51,27 @@ export class AppComponent implements OnInit {
   }
 
   startReplay() {
-    if (this.snapshots.length < 2) return;
+  if (this.snapshots.length < 2) return;
 
-    this.stopReplay(); 
-    const times = this.snapshots.map(s => this.parseTime(s.Time));
-    const totalTime = times[times.length - 1] - times[0];
-    const targetDuration = 30000; 
-    const scale = targetDuration / totalTime;
+  this.stopReplay(); 
 
-    this.isReplaying = true;
+  const totalDuration = 30000; 
+  const interval = totalDuration / (this.snapshots.length - 1);
+  this.isReplaying = true;
 
-    for (let i = 1; i < this.snapshots.length; i++) {
-      const realDelay = times[i] - times[0];
-      const scaledDelay = realDelay * scale;
+  for (let i = 1; i < this.snapshots.length; i++) {
+    const timeout = setTimeout(() => {
+      this.currentIndex = i;
+      this.selectedSnapshot = this.snapshots[i];
+      if (i === this.snapshots.length - 1) {
+        this.isReplaying = false;
+      }
+    }, i * interval);
 
-      const timeout = setTimeout(() => {
-        this.currentIndex = i;
-        this.selectedSnapshot = this.snapshots[i];
-        if (i === this.snapshots.length - 1) this.isReplaying = false;
-      }, scaledDelay);
-
-      this.replayTimeouts.push(timeout);
-    }
+    this.replayTimeouts.push(timeout);
   }
+}
+
 
   pauseReplay() {
     this.replayTimeouts.forEach(t => clearTimeout(t));
