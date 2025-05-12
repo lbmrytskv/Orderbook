@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
 
   constructor(private dataService: OrderBookDataService) {}
 
+  // Load data on init
   ngOnInit(): void {
     this.dataService.getSnapshots().subscribe((data) => {
       this.snapshots = data;
@@ -26,6 +27,7 @@ export class AppComponent implements OnInit {
     });
   }
 
+  // Manual selection from dropdown
   onSelect(event: Event) {
     const target = event.target as HTMLSelectElement;
     const time = target.value;
@@ -36,6 +38,7 @@ export class AppComponent implements OnInit {
     }
   }
 
+  // Go to previous snapshot
   goToPrev() {
     if (this.currentIndex > 0) {
       this.currentIndex--;
@@ -43,6 +46,7 @@ export class AppComponent implements OnInit {
     }
   }
 
+  // Go to next snapshot
   goToNext() {
     if (this.currentIndex < this.snapshots.length - 1) {
       this.currentIndex++;
@@ -50,41 +54,44 @@ export class AppComponent implements OnInit {
     }
   }
 
+  // Start replay with even intervals
   startReplay() {
-  if (this.snapshots.length < 2) return;
+    if (this.snapshots.length < 2) return;
 
-  this.stopReplay(); 
+    this.stopReplay(); // clear any existing replay
 
-  const totalDuration = 30000; 
-  const interval = totalDuration / (this.snapshots.length - 1);
-  this.isReplaying = true;
+    const totalDuration = 30000; 
+    const interval = totalDuration / (this.snapshots.length - 1);
+    this.isReplaying = true;
 
-  for (let i = 1; i < this.snapshots.length; i++) {
-    const timeout = setTimeout(() => {
-      this.currentIndex = i;
-      this.selectedSnapshot = this.snapshots[i];
-      if (i === this.snapshots.length - 1) {
-        this.isReplaying = false;
-      }
-    }, i * interval);
+    for (let i = 1; i < this.snapshots.length; i++) {
+      const timeout = setTimeout(() => {
+        this.currentIndex = i;
+        this.selectedSnapshot = this.snapshots[i];
+        if (i === this.snapshots.length - 1) {
+          this.isReplaying = false;
+        }
+      }, i * interval);
 
-    this.replayTimeouts.push(timeout);
+      this.replayTimeouts.push(timeout);
+    }
   }
-}
 
-
+  // Pause current replay
   pauseReplay() {
     this.replayTimeouts.forEach(t => clearTimeout(t));
     this.replayTimeouts = [];
     this.isReplaying = false;
   }
 
+  // Stop and reset replay
   stopReplay() {
     this.pauseReplay();
     this.currentIndex = 0;
     this.selectedSnapshot = this.snapshots[0];
   }
 
+  // Convert time string to ms
   parseTime(timeStr: string): number {
     const [hh, mm, rest] = timeStr.split(':');
     const [ss, ms] = rest.split('.');
