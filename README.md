@@ -60,7 +60,7 @@ Navigate to `http://localhost:4200/`. The application will automatically reload 
 ---
 
 ## 🚀 Live Demo
-[👉 View on GitHub Pages](https://lbmrytskv.github.io/order-book/)
+https://lbmrytskv.github.io/Orderbook/
 
 ---
 

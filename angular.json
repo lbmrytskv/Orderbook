@@ -93,7 +93,7 @@
         "deploy": {
           "builder": "angular-cli-ghpages:deploy",
           "options": {
-            "baseHref": "/order-book/"
+            "baseHref": "/Orderbook/"
           }
         }
       }
