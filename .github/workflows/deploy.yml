@@ -29,3 +29,6 @@ jobs:
         with:
           branch: gh-pages
           folder: dist/order-book
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+          
