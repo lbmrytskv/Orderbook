@@ -36,6 +36,8 @@ export class OrderBookComponent {
     const minPrice = Math.min(...allPrices);
     const maxPrice = Math.max(...allPrices);
     const step = 0.0005;
+    const lintcheck = 0.001
+    
 
     const levels: Level[] = [];
 
