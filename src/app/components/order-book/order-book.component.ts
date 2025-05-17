@@ -2,11 +2,12 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OrderBookSnapshot } from '../../services/order-book-data.service';
 
-type Level = {
+interface Level {
   price: number;
   askSize?: number;
   bidSize?: number;
-};
+}
+;
 
 @Component({
   selector: 'app-order-book',

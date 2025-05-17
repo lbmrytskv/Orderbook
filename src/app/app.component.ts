@@ -14,7 +14,8 @@ export class AppComponent implements OnInit {
   selectedSnapshot: OrderBookSnapshot | null = null;
   currentIndex = 0;
   isReplaying = false;
-  replayTimeouts: any[] = [];
+  replayTimeouts: ReturnType<typeof setTimeout>[] = [];
+
 
   constructor(private dataService: OrderBookDataService) {}
 
